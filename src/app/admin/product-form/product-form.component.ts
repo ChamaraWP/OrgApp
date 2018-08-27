@@ -1,7 +1,8 @@
+import { CategoryService } from './../../services/category.service';
 import { ProductService } from './../../services/product.service';
 import { Observable, Subscription } from 'rxjs';
-import { CategoryService } from './../../category.service';
 import { Component, OnInit,OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-form',
@@ -12,8 +13,12 @@ export class ProductFormComponent implements OnInit,OnDestroy {
   //categories$;
   categories:any[];
   subscription:Subscription;
-    constructor(categoryService:CategoryService,private productService:ProductService) {
-    this.subscription = categoryService.getCategories().subscribe(data => {
+    constructor(
+      private categoryService:CategoryService,
+      private productService:ProductService,
+      private router:Router) {
+
+    this.subscription = this.categoryService.getCategories().subscribe(data => {
       this.categories = data;
       console.log(data);
 
@@ -30,6 +35,7 @@ export class ProductFormComponent implements OnInit,OnDestroy {
   save(product) {
     console.log(product);
     this.productService.create(product);
+    this.router.navigate(['/admin/products']);
   }
 
 }
