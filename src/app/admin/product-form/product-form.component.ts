@@ -1,21 +1,30 @@
 import { ProductService } from './../../services/product.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CategoryService } from './../../category.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-product-form',
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
 })
-export class ProductFormComponent implements OnInit {
-  categories$;
-
+export class ProductFormComponent implements OnInit,OnDestroy {
+  //categories$;
+  categories:any[];
+  subscription:Subscription;
     constructor(categoryService:CategoryService,private productService:ProductService) {
-    this.categories$ = categoryService.getCategories();
+    this.subscription = categoryService.getCategories().subscribe(data => {
+      this.categories = data;
+      console.log(data);
+
+    })
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   save(product) {
