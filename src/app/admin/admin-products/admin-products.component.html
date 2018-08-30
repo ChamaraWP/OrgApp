@@ -1,8 +1,11 @@
 <p>
     <a routerLink="/admin/products/new" class="btn btn-primary">New Products</a>
 </p>
+<p>
+    <input #query (keyup)="filter(query.value)" type="text" class="form-control" placeholder="search">
+</p>
 
-<table class="table">
+<!-- <table class="table">
     <thead>
         <tr>
             <th>Title</th>
@@ -11,10 +14,41 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let p of products">
+        <tr *ngFor="let p of  filterdProducts">
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td><a [routerLink]="['/admin/products/',p.key]">Edit</a></td>
         </tr>
     </tbody>
+    </table> -->
+
+<table class="table table-striped" [mfData]="filterdProducts" #mf="mfDataTable" (reload)="reloadItems($event)" [mfRowsOnPage]="5">
+    <thead>
+        <tr>
+            <th style="width: 50%">
+                <mfDefaultSorter by="name">Name</mfDefaultSorter>
+            </th>
+            <th style="width: 30%">
+                <mfDefaultSorter by="email">Email</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+                <mfDefaultSorter></mfDefaultSorter>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of mf.data">
+            <td>{{item.title}}</td>
+            <td>{{item.price}}</td>
+            <td><a [routerLink]="['/admin/products/',item.key]">Edit</a></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+            </td>
+        </tr>
+    </tfoot>
 </table>
