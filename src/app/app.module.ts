@@ -29,6 +29,8 @@ import { LoginComponent } from './login/login.component';
 import { UserService } from './services/user.service';
 import { ProductFormComponent } from './admin/product-form/product-form.component';
 import { CustomFormsModule } from 'ng2-validation';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component';
+import { ProductCartComponent } from './product-cart/product-cart.component';
 
 
 
@@ -46,7 +48,9 @@ import { CustomFormsModule } from 'ng2-validation';
     ShopingCartComponent,
     LoginComponent,
     MyOrderComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    ProductFilterComponent,
+    ProductCartComponent
   ],
   imports: [
     BrowserModule,
