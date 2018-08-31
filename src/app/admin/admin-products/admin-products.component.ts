@@ -13,11 +13,13 @@ export class AdminProductsComponent implements OnInit,OnDestroy {
   filterdProducts:any[];
   subcription:Subscription;
 
+
   constructor(private productService:ProductService) { }
 
   ngOnInit() {
     this.subcription = this.productService.getAll().subscribe(data => {
       this.filterdProducts = this.products = data;
+
       console.log(this.products);
     });
   }
@@ -32,6 +34,8 @@ export class AdminProductsComponent implements OnInit,OnDestroy {
     this.products.filter(p => p.title.toLowerCase().includes(query.toLowerCase())):
     this.products
   }
+
+
 
 
 }
