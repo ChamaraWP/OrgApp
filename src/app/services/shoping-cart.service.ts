@@ -3,6 +3,7 @@ import { AngularFireDatabase, AngularFireObject } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ShoppingCart } from '../models/shopping-cart';
 
 
 
@@ -24,7 +25,7 @@ export class ShopingCartService {
     })
   }
 
-  async getCart() {
+  async getCart():Promise<AngularFireObject<ShoppingCart>> {
     let cartId = await this.getOrCreateCartId()
     return this.db.object('/shopping-carts/' + cartId);
   }
@@ -61,6 +62,24 @@ export class ShopingCartService {
       else {
         items.set({ product: product, quantity: 1 });
       }
+    })
+  }
+
+   async removeFromCart(product){
+    let prod;
+    let cartId = await this.getOrCreateCartId();
+    let items: AngularFireObject<{}> = this.getItem(cartId,product.key);
+    let itemSnap$ = items.snapshotChanges();
+    itemSnap$.pipe(take(1)).subscribe(item => {
+
+      prod = { product: item.payload.val() }
+      //console.log(prod.product.quantity);
+      let exists: boolean = item.payload.val() !== null;
+      console.log("Exists: ", exists);
+      if (exists) {
+        items.update({product: product, quantity: (prod.product.quantity -1 )});
+      }
+
     })
   }
 }
