@@ -11,7 +11,7 @@ import { take } from 'rxjs/operators';
 })
 
 export class ShopingCartService {
-  newItem:Subscription;
+  newItem: Subscription;
 
 
 
@@ -24,39 +24,43 @@ export class ShopingCartService {
     })
   }
 
-  private getCart(cartId: string) {
+  async getCart() {
+    let cartId = await this.getOrCreateCartId()
     return this.db.object('/shopping-carts/' + cartId);
   }
 
-  private async getOrCreateCartId() {
+  private async getOrCreateCartId():Promise<string> {
     let cartId = localStorage.getItem('cartId');
-    if (cartId)  return cartId;
+    if (cartId) return cartId;
 
     let results = await this.create()
     localStorage.setItem('cartId', results.key);
     return results.key
   }
 
+  private getItem(cartId,productId){
+    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
+  }
+
+
 
   async addToCart(product) {
-    let prod ;
+    let prod;
     let cartId = await this.getOrCreateCartId();
-    let items:AngularFireObject<{}>  = this.db.object('/shopping-carts/' + cartId + '/items/' + product.key);
+    let items: AngularFireObject<{}> = this.getItem(cartId,product.key);
     let itemSnap$ = items.snapshotChanges();
     itemSnap$.pipe(take(1)).subscribe(item => {
 
-      prod = { product:item.payload.val()}
-      console.log(prod.product.quantity);
+      prod = { product: item.payload.val() }
+      //console.log(prod.product.quantity);
       let exists: boolean = item.payload.val() !== null;
       console.log("Exists: ", exists);
-     if (exists) {
-       items.update({ quantity:prod.product.quantity + 1  });
+      if (exists) {
+        items.update({product: product, quantity: (prod.product.quantity + 1 )});
       }
       else {
         items.set({ product: product, quantity: 1 });
       }
-
-
     })
   }
 }

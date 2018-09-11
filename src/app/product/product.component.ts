@@ -1,3 +1,4 @@
+import { ShopingCartService } from './../services/shoping-cart.service';
 import { switchMap } from 'rxjs/operators';
 
 import { Subscription } from 'rxjs';
@@ -17,14 +18,16 @@ export class ProductComponent implements OnInit, OnDestroy {
   products: any[] = [];
   categories: any[];
   category: string;
-
+  cart:any;
+  cartSubcription:Subscription;
 
   constructor(private productService: ProductService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private shoppingCartService:ShopingCartService) {
 
     }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.productService.getAll().pipe(switchMap(prodData => {
       this.products = prodData;
@@ -37,11 +40,16 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     });
 
+    this.cartSubcription =( await this.shoppingCartService.getCart()).valueChanges()
+    .subscribe(cart =>
+      this.cart = cart
+    );
+
   }
 
   ngOnDestroy() {
     // this.subscriptionProd.unsubscribe();
-
+    this.cartSubcription.unsubscribe();
   }
 
 }
