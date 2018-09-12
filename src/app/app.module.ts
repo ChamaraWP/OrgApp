@@ -32,6 +32,7 @@ import { ProductFormComponent } from './admin/product-form/product-form.componen
 import { CustomFormsModule } from 'ng2-validation';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCartComponent } from './product-cart/product-cart.component';
+import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
 
 
 
@@ -51,7 +52,8 @@ import { ProductCartComponent } from './product-cart/product-cart.component';
     MyOrderComponent,
     ProductFormComponent,
     ProductFilterComponent,
-    ProductCartComponent
+    ProductCartComponent,
+    ProductQuantityComponent
   ],
   imports: [
     BrowserModule,
