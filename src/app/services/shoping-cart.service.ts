@@ -19,11 +19,6 @@ export class ShopingCartService {
   constructor(private db: AngularFireDatabase) {
   }
 
-  private create() {
-    return this.db.list('/shopping-carts').push({
-      dateCreated: new Date().getTime()
-    })
-  }
 
   async getCart():Promise<Observable<ShoppingCart>> {
     let cartId = await this.getOrCreateCartId()
@@ -36,21 +31,6 @@ export class ShopingCartService {
     )
     return cart;
   }
-
-  private async getOrCreateCartId():Promise<string> {
-    let cartId = localStorage.getItem('cartId');
-    if (cartId) return cartId;
-
-    let results = await this.create()
-    localStorage.setItem('cartId', results.key);
-    return results.key
-  }
-
-  private getItem(cartId,productId){
-    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
-  }
-
-
 
   async addToCart(product) {
     let prod;
@@ -72,7 +52,8 @@ export class ShopingCartService {
     })
   }
 
-   async removeFromCart(product){
+
+  async removeFromCart(product){
     let prod;
     let cartId = await this.getOrCreateCartId();
     let items: AngularFireObject<{}> = this.getItem(cartId,product.key);
@@ -84,11 +65,39 @@ export class ShopingCartService {
       let exists: boolean = item.payload.val() !== null;
       console.log("Exists: ", exists);
       if (exists) {
+        if(prod.product.quantity <= 0 ) {
+          items.remove();
+        }else
         items.update({product: product, quantity: (prod.product.quantity -1 )});
       }
-
     })
   }
+
+  async clearCart(){
+    let cartId = await this.getOrCreateCartId();
+    this.db.object('/shopping-carts/' + cartId + '/items').remove();
+  }
+
+  private create() {
+    return this.db.list('/shopping-carts').push({
+      dateCreated: new Date().getTime()
+    })
+  }
+
+
+  private async getOrCreateCartId():Promise<string> {
+    let cartId = localStorage.getItem('cartId');
+    if (cartId) return cartId;
+
+    let results = await this.create()
+    localStorage.setItem('cartId', results.key);
+    return results.key
+  }
+
+  private getItem(cartId,productId){
+    return this.db.object('/shopping-carts/' + cartId + '/items/' + productId);
+  }
+
 }
 
 
