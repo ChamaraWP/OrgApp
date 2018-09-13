@@ -1,7 +1,7 @@
 import { ShopingCartService } from './services/shoping-cart.service';
 import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
-import { AdminAuthGuardService } from './admin-auth-guard.service';
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { environment } from './../environments/environment';

@@ -1,9 +1,10 @@
-import { UserService } from './services/user.service';
+import { UserService } from './user.service';
 import { switchMap, map } from 'rxjs/operators';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './auth.service';
 import { CanActivate } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable, of, pipe } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
