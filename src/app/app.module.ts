@@ -1,3 +1,4 @@
+import { OrderService } from './services/order.service';
 import { ShopingCartService } from './services/shoping-cart.service';
 import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
@@ -74,7 +75,7 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
 
       {path: 'check-out', component:CheckOutComponent,canActivate:[AuthGuardService]},
       {path: 'my/orders', component:MyOrderComponent,canActivate:[AuthGuardService]},
-      {path: 'order-success', component:OrderSuccessComponent,canActivate:[AuthGuardService]},
+      {path: 'order-success/:id', component:OrderSuccessComponent,canActivate:[AuthGuardService]},
 
       {path:'admin/products/new',component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path:'admin/products/:id',component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
@@ -87,7 +88,8 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
               UserService,
               CategoryService,
               ProductService,
-              ShopingCartService],
+              ShopingCartService,
+              OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
