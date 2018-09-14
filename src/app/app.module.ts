@@ -34,6 +34,8 @@ import { CustomFormsModule } from 'ng2-validation';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCartComponent } from './product-cart/product-cart.component';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { ShoppingCartSummeryComponent } from './shopping-cart-summery/shopping-cart-summery.component';
+import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 
 
 
@@ -54,7 +56,9 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
     ProductFormComponent,
     ProductFilterComponent,
     ProductCartComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    ShoppingCartSummeryComponent,
+    ShippingFormComponent
   ],
   imports: [
     BrowserModule,
