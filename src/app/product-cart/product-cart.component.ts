@@ -16,6 +16,9 @@ export class ProductCartComponent implements OnInit {
   constructor(private cartService:ShopingCartService) { }
 
   ngOnInit() {
+
+
+
   }
 
   addToCart() {

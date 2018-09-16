@@ -29,6 +29,7 @@ export class OrderService {
       map(actions => {
         return actions.map(action => {
           return <Order>({
+            key: action.key,
             datePlaced: action.payload.val().datePlaced,
             items: action.payload.val().items,
             userId: action.payload.val().userId,
