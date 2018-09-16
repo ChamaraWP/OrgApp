@@ -1,6 +1,10 @@
-import { AdminAuthGuardService } from './admin-auth-guard.service';
-import { AuthGuardService } from './auth-guard.service';
-import { AuthService } from './auth.service';
+import { OrderService } from './services/order.service';
+import { ShopingCartService } from './services/shoping-cart.service';
+import { ProductService } from './services/product.service';
+import { CategoryService } from './services/category.service';
+import { AdminAuthGuardService } from './services/admin-auth-guard.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 import { environment } from './../environments/environment';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -9,7 +13,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {FormsModule} from '@angular/forms';
+import {DataTableModule} from "angular-6-datatable";
 
 
 import { AppComponent } from './app.component';
@@ -23,8 +28,14 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { ShopingCartComponent } from './shoping-cart/shoping-cart.component';
 import { LoginComponent } from './login/login.component';
-import { UserService } from './user.service';
-
+import { UserService } from './services/user.service';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { CustomFormsModule } from 'ng2-validation';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component';
+import { ProductCartComponent } from './product-cart/product-cart.component';
+import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { ShoppingCartSummeryComponent } from './shopping-cart-summery/shopping-cart-summery.component';
+import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 
 
 
@@ -41,7 +52,13 @@ import { UserService } from './user.service';
     AdminOrdersComponent,
     ShopingCartComponent,
     LoginComponent,
-    MyOrderComponent
+    MyOrderComponent,
+    ProductFormComponent,
+    ProductFilterComponent,
+    ProductCartComponent,
+    ProductQuantityComponent,
+    ShoppingCartSummeryComponent,
+    ShippingFormComponent
   ],
   imports: [
     BrowserModule,
@@ -49,23 +66,35 @@ import { UserService } from './user.service';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     NgbModule.forRoot(),
+    FormsModule,
+    CustomFormsModule,
+    DataTableModule,
+
+
     RouterModule.forRoot([
-      {path: '', component:HomeComponent},
+      {path: '', component:ProductComponent},
       {path: 'products', component:ProductComponent},
       {path: 'shopping-cart', component:ShopingCartComponent},
       {path: 'login', component:LoginComponent},
 
       {path: 'check-out', component:CheckOutComponent,canActivate:[AuthGuardService]},
       {path: 'my/orders', component:MyOrderComponent,canActivate:[AuthGuardService]},
-      {path: 'order-success', component:OrderSuccessComponent,canActivate:[AuthGuardService]},
+      {path: 'order-success/:id', component:OrderSuccessComponent,canActivate:[AuthGuardService]},
 
+      {path:'admin/products/new',component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
+      {path:'admin/products/:id',component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path: 'admin/products', component:AdminProductsComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
+      {path: 'admin/orders/:id', component:AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path: 'admin/orders', component:AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuardService]}
     ])
   ],
   providers: [AuthService,
               AuthGuardService,
-              UserService  ],
+              UserService,
+              CategoryService,
+              ProductService,
+              ShopingCartService,
+              OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
