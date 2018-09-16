@@ -84,6 +84,7 @@ import { ShippingFormComponent } from './shipping-form/shipping-form.component';
       {path:'admin/products/new',component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path:'admin/products/:id',component:ProductFormComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path: 'admin/products', component:AdminProductsComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
+      {path: 'admin/orders/:id', component:AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuardService]},
       {path: 'admin/orders', component:AdminOrdersComponent,canActivate:[AuthGuardService,AdminAuthGuardService]}
     ])
   ],
