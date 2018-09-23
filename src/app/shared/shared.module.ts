@@ -16,7 +16,7 @@ import { ProductService } from './services/product.service';
 import { ShopingCartService } from './services/shoping-cart.service';
 import { UserService } from './services/user.service';
 import { CustomFormsModule } from 'ng2-validation';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 @NgModule({
@@ -27,7 +27,8 @@ import { CustomFormsModule } from 'ng2-validation';
     DataTableModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    AngularFontAwesomeModule
   ],
   declarations: [
     ProductCartComponent,
